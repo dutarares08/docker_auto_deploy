@@ -1,0 +1,27 @@
+
+services:
+  app:
+    build: .
+    volumes:
+      - .:/django
+    ports:
+      - "8000:8000"
+    image: app:django
+    container_name: django_container
+    command: python manage.py runserver 0.0.0.0:8000
+  
+  redis:
+    image: "redis:alpine"
+    container_name: redis_container
+
+  celery:
+    restart: always
+    image: app:celery
+    build: .
+    command: celery -A core worker -l DEBUG --pool=solo
+    volumes:
+      - .:/django
+    container_name: celery_container
+    depends_on:
+      - redis
+      - app

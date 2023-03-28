@@ -5,3 +5,12 @@ docker rmi demo_server
 
 docker build --tag demo_server .
 docker run -t -d -p 8000:8000 --name container_name demo_server
+
+
+CMD ["python", "manage.py", "makemigrations"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
+
+EXPOSE 8000
+
+COPY . .
