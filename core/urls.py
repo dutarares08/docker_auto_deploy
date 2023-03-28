@@ -15,7 +15,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from rest_framework.response import Response
+
+
+from rest_framework.decorators import api_view
+
+@api_view(['GET'])
+def test_view(request):
+    return Response({"success_message":"Success"})
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('test/', test_view, name="test_view"),
 ]
